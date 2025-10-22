@@ -48,6 +48,8 @@ sudo apt install -y \
     libx264-dev \
     libgtk-3-dev \
     libatlas-base-dev \
+    libopenblas-dev \
+    liblapack-dev \
     gfortran \
     wget \
     curl \
@@ -85,12 +87,41 @@ echo "Proceeding with option 2: llama-cpp-python only"
 echo "Installing alternative packages..."
 
 # Install alternative packages that work on ARM32
+echo "Installing ARM32-compatible packages..."
+
+# Install packages that have ARM32 wheels
 pip install \
     numpy \
-    scipy \
-    scikit-learn \
-    scikit-image \
-    matplotlib
+    pillow \
+    requests \
+    pyyaml \
+    fastapi \
+    uvicorn \
+    pydantic \
+    python-multipart \
+    aiofiles \
+    psutil \
+    py-cpuinfo \
+    python-json-logger \
+    tqdm \
+    huggingface-hub \
+    sentencepiece \
+    protobuf
+
+# Try to install scipy (may fail on ARM32)
+echo "Attempting to install scipy..."
+pip install scipy || {
+    echo "❌ SciPy installation failed (common on ARM32)"
+    echo "Installing minimal alternatives..."
+    pip install scikit-learn || echo "❌ scikit-learn also failed"
+}
+
+# Try to install matplotlib (may fail on ARM32)
+echo "Attempting to install matplotlib..."
+pip install matplotlib || {
+    echo "❌ Matplotlib installation failed (common on ARM32)"
+    echo "Skipping matplotlib - not essential for EdgeVLM"
+}
 
 # Install OpenCV for ARM32
 echo "Installing OpenCV for ARM32..."
