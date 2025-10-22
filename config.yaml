@@ -1,12 +1,12 @@
 # EdgeVLM Configuration
 # Optimized for Raspberry Pi 8GB deployment
 
-# Model Configuration
+# Model Configuration - ARM32 Optimized
 models:
   main_vlm:
     name: "MobileVLM-V2-1.7B"
     path: "models/mobilevlm_v2_1.7b_q4.gguf"
-    quantization: "Q4_K_M"  # 4-bit quantization
+    quantization: "Q4_K_M"  # 4-bit quantization for ARM32
     max_params: 1700000000
     
   draft_model:
@@ -17,7 +17,7 @@ models:
     
   vision_encoder:
     backbone: "mobilenet_v3"  # Lightweight vision encoder
-    input_size: [336, 336]
+    input_size: [224, 224]  # Reduced for ARM32 performance
     patch_size: 14
 
 # Optimization Toggles
@@ -54,18 +54,20 @@ optimizations:
 # Inference Configuration
 inference:
   engine: "llama_cpp"  # ARM-optimized
-  num_threads: 4  # Utilize all CPU cores
+  num_threads: 4  # Utilize all CPU cores (adjust for ARM32)
   batch_size: 1
-  max_tokens: 128
+  max_tokens: 64  # Reduced for ARM32 performance
   temperature: 0.7
   top_p: 0.9
   repeat_penalty: 1.1
   
-  # ARM-specific optimizations
-  arm_optimizations:
+  # ARM32-specific optimizations
+  arm32_optimizations:
     use_neon: true  # ARM NEON SIMD
     operator_fusion: true
-    fp16_inference: true
+    fp16_inference: false  # Disabled for ARM32 compatibility
+    memory_efficient_attention: true
+    use_mmap: true  # Memory mapping for large models
 
 # Vision Preprocessing
 vision:
@@ -99,8 +101,16 @@ monitoring:
 
 # Hardware Constraints
 hardware:
-  target_device: "raspberry_pi_4_8gb"
-  max_ram_mb: 6144  # Leave 2GB for OS
-  target_latency_sec: 5.0
+  target_device: "raspberry_pi_4_arm32"  # Updated for ARM32
+  max_ram_mb: 3072  # Reduced for ARM32 systems (typically 4GB total)
+  target_latency_sec: 8.0  # Increased latency tolerance for ARM32
   warning_temp_celsius: 70
+  
+  # ARM32 specific optimizations
+  arm32_optimizations:
+    use_neon: true  # ARM NEON SIMD instructions
+    operator_fusion: true
+    fp16_inference: false  # Disable FP16 on ARM32 (not well supported)
+    memory_alignment: 16  # ARM32 memory alignment
+    cache_line_size: 32  # ARM32 cache line size
 

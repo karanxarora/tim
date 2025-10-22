@@ -1,0 +1,52 @@
+# EdgeVLM Dependencies - ARM32 Optimized
+# Optimized for Raspberry Pi 4 ARM32 (armv7l) deployment
+
+# Core ML & Inference - ARM32 compatible versions
+llama-cpp-python>=0.2.90  # ARM-optimized LLM inference
+numpy>=1.24.0
+torch>=2.1.0  # CPU-only build for ARM32
+torchvision>=0.16.0
+pillow>=10.0.0
+transformers>=4.36.0
+accelerate>=0.25.0
+sentencepiece>=0.1.99
+protobuf>=4.25.0
+
+# Vision Processing - ARM32 optimized
+opencv-python>=4.8.0  # Multi-threaded image processing
+opencv-contrib-python>=4.8.0
+
+# API Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
+aiofiles>=23.2.0
+
+# Optimization Libraries - ARM32 specific
+psutil>=5.9.0  # Memory monitoring
+py-cpuinfo>=9.0.0
+
+# Configuration & Logging
+pyyaml>=6.0.0
+python-json-logger>=2.0.0
+
+# ARM32 specific optimizations
+# Note: Some packages may not be available for ARM32
+# bitsandbytes - May not be available for ARM32
+# peft - May have ARM32 compatibility issues
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.66.0
+huggingface-hub>=0.19.0
+
+# Development & Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# ARM32 specific packages
+# These may need to be installed separately on ARM32 systems
+# scipy>=1.11.0  # For scientific computing
+# scikit-learn>=1.3.0  # For ML utilities
