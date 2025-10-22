@@ -1,0 +1,47 @@
+# EdgeVLM Dependencies
+# Updated for Python 3.12 compatibility
+
+# Core ML & Inference
+llama-cpp-python>=0.2.90  # ARM-optimized LLM inference
+numpy>=1.24.0
+torch>=2.1.0  # CPU-only build for ARM
+torchvision>=0.16.0
+pillow>=10.0.0
+transformers>=4.36.0
+accelerate>=0.25.0
+sentencepiece>=0.1.99
+protobuf>=4.25.0
+
+# Vision Processing
+opencv-python>=4.8.0  # Multi-threaded image processing
+opencv-contrib-python>=4.8.0
+
+# API Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+python-multipart>=0.0.6
+aiofiles>=23.2.0
+
+# Optimization Libraries
+psutil>=5.9.0  # Memory monitoring
+py-cpuinfo>=9.0.0
+
+# Configuration & Logging
+pyyaml>=6.0.0
+python-json-logger>=2.0.0
+
+# Quantization Support (optional - may cause issues on some systems)
+# bitsandbytes>=0.41.0  # For LoRA and quantization utilities
+# peft>=0.7.0  # Parameter-Efficient Fine-Tuning (LoRA)
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.66.0
+huggingface-hub>=0.19.0
+
+# Development & Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+

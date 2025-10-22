@@ -1,0 +1,106 @@
+# EdgeVLM Configuration
+# Optimized for Raspberry Pi 8GB deployment
+
+# Model Configuration
+models:
+  main_vlm:
+    name: "MobileVLM-V2-1.7B"
+    path: "models/mobilevlm_v2_1.7b_q4.gguf"
+    quantization: "Q4_K_M"  # 4-bit quantization
+    max_params: 1700000000
+    
+  draft_model:
+    name: "TinyLlama-1.1B"
+    path: "models/tinyllama_1.1b_q4.gguf"
+    quantization: "Q4_K_M"
+    max_params: 1100000000
+    
+  vision_encoder:
+    backbone: "mobilenet_v3"  # Lightweight vision encoder
+    input_size: [336, 336]
+    patch_size: 14
+
+# Optimization Toggles
+optimizations:
+  speculative_decoding:
+    enabled: true
+    draft_tokens: 4  # Number of tokens draft model generates
+    acceptance_threshold: 0.85
+    
+  kv_cache_compression:
+    gear_enabled: true
+    pyramid_enabled: true
+    compression_ratio: 0.5  # Compress 50% of KV cache
+    eviction_policy: "attention_score"  # or "layer_recency"
+    
+  early_exit:
+    enabled: true
+    confidence_threshold: 0.9
+    min_layers: 8  # Minimum layers before early exit
+    exit_layers: [8, 12, 16, 20]  # Candidate exit points
+    
+  memory_management:
+    dynamic_cache_allocation: true
+    periodic_cache_clear: true
+    clear_interval: 10  # Clear cache every N inferences
+    max_cache_size_mb: 512
+    
+  adapter_optimization:
+    use_lora: true
+    lora_rank: 8
+    lora_alpha: 16
+    weight_tying: true
+
+# Inference Configuration
+inference:
+  engine: "llama_cpp"  # ARM-optimized
+  num_threads: 4  # Utilize all CPU cores
+  batch_size: 1
+  max_tokens: 128
+  temperature: 0.7
+  top_p: 0.9
+  repeat_penalty: 1.1
+  
+  # ARM-specific optimizations
+  arm_optimizations:
+    use_neon: true  # ARM NEON SIMD
+    operator_fusion: true
+    fp16_inference: true
+
+# Vision Preprocessing
+vision:
+  use_opencv: true
+  num_threads: 2  # Multi-threaded preprocessing
+  resize_method: "bilinear"
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  max_queue_size: 5
+  timeout: 30
+
+# Benchmarking & Logging
+monitoring:
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_path: "logs/edgevlm.log"
+  
+  metrics:
+    track_latency: true
+    track_memory: true
+    track_early_exits: true
+    track_cache_hits: true
+    track_acceptance_rate: true  # For speculative decoding
+    
+  benchmark_output: "benchmarks/results.json"
+
+# Hardware Constraints
+hardware:
+  target_device: "raspberry_pi_4_8gb"
+  max_ram_mb: 6144  # Leave 2GB for OS
+  target_latency_sec: 5.0
+  warning_temp_celsius: 70
+

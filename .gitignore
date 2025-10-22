@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Models
+models/*.gguf
+models/*.pth
+models/*.bin
+models/*.safetensors
+
+# Logs
+logs/*.log
+logs/*.txt
+
+# Benchmarks
+benchmarks/*.json
+benchmarks/*.csv
+
+# Cache
+cache/*
+*.cache
+
+# Uploads
+uploads/*
+
+# Temp files
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment
+.env
+.env.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# System
+.systemd/
+*.service
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Keep directory structure
+!models/.gitkeep
+!logs/.gitkeep
+!benchmarks/.gitkeep
+!cache/.gitkeep
+!uploads/.gitkeep
+
