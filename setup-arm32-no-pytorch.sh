@@ -1,11 +1,12 @@
 #!/bin/bash
-# EdgeVLM Setup Script for Raspberry Pi ARM32 (armv7l)
+# EdgeVLM Setup Script for Raspberry Pi ARM32 (armv7l) - PyTorch Alternative
 # Optimized for Raspberry Pi 4 with 4GB+ RAM
 
 set -e
 
 echo "=========================================="
 echo "EdgeVLM ARM32 Setup for Raspberry Pi"
+echo "PyTorch Alternative Version"
 echo "=========================================="
 
 # Detect system architecture
@@ -70,23 +71,13 @@ echo "Installing ARM32 optimized packages..."
 # Install numpy first (ARM32 compatible)
 pip install numpy==1.24.3
 
-# PyTorch is NOT available for ARM32 (armv7l)
-echo "PyTorch Installation for ARM32..."
-echo "❌ PyTorch does not provide ARM32 (armv7l) wheels"
-echo "Available architectures: x86_64, aarch64 (ARM64)"
-echo "Your architecture: armv7l (ARM32)"
-echo ""
-echo "Options:"
-echo "1. Use 64-bit Raspberry Pi OS (recommended)"
-echo "2. Skip PyTorch and use llama-cpp-python only"
-echo "3. Build PyTorch from source (complex, not recommended)"
-echo ""
-echo "Proceeding with option 2: llama-cpp-python only"
+# Install PyTorch alternative for ARM32
+echo "Installing PyTorch alternative for ARM32..."
+echo "PyTorch wheels are not available for ARM32 from PyPI"
 echo "Installing alternative packages..."
 
 # Install alternative packages that work on ARM32
 pip install \
-    numpy \
     scipy \
     scikit-learn \
     scikit-image \
@@ -117,7 +108,7 @@ pip install \
 echo "Installing llama-cpp-python for ARM32..."
 CMAKE_ARGS="-DLLAMA_NATIVE=ON -DLLAMA_NEON=ON" pip install llama-cpp-python==0.2.90
 
-# Install transformers and other ML packages
+# Install transformers and other ML packages (without PyTorch dependency)
 echo "Installing ML packages..."
 pip install \
     transformers==4.36.0 \
@@ -185,8 +176,11 @@ echo "=========================================="
 echo "EdgeVLM ARM32 Setup Complete!"
 echo "=========================================="
 echo ""
+echo "Note: PyTorch was not installed due to ARM32 compatibility issues"
+echo "The system will use llama-cpp-python for inference instead"
+echo ""
 echo "Next steps:"
-echo "1. Download models: python download_models.py"
+echo "1. Download models: python download_models_arm32.py"
 echo "2. Test the system: python main.py --log-level DEBUG"
 echo "3. Start service: sudo systemctl start edgevlm"
 echo "4. Check status: sudo systemctl status edgevlm"
